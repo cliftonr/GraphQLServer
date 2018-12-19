@@ -4,10 +4,14 @@ Test the capabilities of Apollo GraphQL.
 ## Get started
 
 1) Open Terminal. Change to project directory.
-`$ cd /path/to/GraphQLServer`
+```
+$ cd /path/to/GraphQLServer
+```
 
 2) Install node project dependencies.
-`$ npm install`
+```
+$ npm install
+```
 
 3) Start the server
 ```
