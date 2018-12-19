@@ -30,9 +30,9 @@ These files define the types used for queries and mutations. Each file encapsula
 All type definitions and resolvers are merged in `GraphQLServer/schema/schema.js`
 
 Current models include:
-  • User
-  • StudySet
-  • StudyTerm
+* User
+* StudySet
+* StudyTerm
 
 ### Repositories
 `GraphQLServer/data`
