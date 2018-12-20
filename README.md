@@ -20,39 +20,11 @@ $ node index.js
 ```
 4) Open server playground URL in web browser. (`http://localhost:4000/`)
 
-## Development
-
-### Schema
-`GraphQLServer/schema`
-
-These files define the types used for queries and mutations. Each file encapsulates types and resolvers for a specific model. 
-
-All type definitions and resolvers are merged in `GraphQLServer/schema/schema.js`
-
-Current models include:
-* User: creates study sets.
-* StudySet: contains study terms.
-* StudyTerm: has study information (a word and associated definition).
-
-### Repositories
-`GraphQLServer/data`
-
-These files define the repositories that interact with the database. Schema should use the repositories, and not interact directly with the database.
-
-Keep in mind when working with repositories that columns obtained from the database are converted to `camelCase`, not `snake_case` as they are named in the database.
-
-### Database setup
-`GraphQLServer/db-setup`
-
-By default, `data/db.js` connects with a postgresql database that has already been configured, but if you want to set up your own database, these are queries that'll get you up and running.
-
-After setting up your database, open `GraphQLServer/data/db.js` and change `connection` to your database. If you decide to use something other than postgresql, you'll need to modify all files in `GraphQLServer/data` to support the different architecture.
-
 ## Examples
 
 ### Queries
 
-Query all users, their sets and associated terms.
+**Query all users, their sets and associated terms.**
 ```
 {
     allUsers {
@@ -72,7 +44,7 @@ Query all users, their sets and associated terms.
 }
 ```
 
-Query set with id=1.
+**Query set with id=1.**
 ```
 {
     studySet(id: "1") {
@@ -84,7 +56,7 @@ Query set with id=1.
 
 ### Mutations
 
-Create a user.
+**Create a user.**
 ```
 // query:
 mutation CreateUser($userInput: UserInput!) {
@@ -104,7 +76,7 @@ mutation CreateUser($userInput: UserInput!) {
 }
 ```
 
-Create a set.
+**Create a set.**
 ```
 // query:
 mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
@@ -129,7 +101,7 @@ mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
 }
 ```
 
-Add terms to a set.
+**Add terms to a set.**
 ```
 // query:
 mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
@@ -162,3 +134,31 @@ mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
     ]
 }
 ```
+
+## Development
+
+### Schema
+`GraphQLServer/schema`
+
+These files define the types used for queries and mutations. Each file encapsulates types and resolvers for a specific model. 
+
+All type definitions and resolvers are merged in `GraphQLServer/schema/schema.js`
+
+Current models include:
+* User: creates study sets.
+* StudySet: contains study terms.
+* StudyTerm: has study information (a word and associated definition).
+
+### Repositories
+`GraphQLServer/data`
+
+These files define the repositories that interact with the database. Schema should use the repositories, and not interact directly with the database.
+
+Keep in mind when working with repositories that columns obtained from the database are converted to `camelCase`, not `snake_case` as they are named in the database.
+
+### Database setup
+`GraphQLServer/db-setup`
+
+By default, `data/db.js` connects with a postgresql database that has already been configured, but if you want to set up your own database, these are queries that'll get you up and running.
+
+After setting up your database, open `GraphQLServer/data/db.js` and change `connection` to your database. If you decide to use something other than postgresql, you'll need to modify all files in `GraphQLServer/data` to support the different architecture.
