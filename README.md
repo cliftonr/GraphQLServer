@@ -45,3 +45,118 @@ These files define the repositories that interact with the database. Schema shou
 By default, `data/db.js` connects with a postgresql database that has already been configured, but if you want to set up your own database, these are queries that'll get you up and running.
 
 After setting up your database, open `GraphQLServer/data/db.js` and change `connection` to your database. If you decide to use something other than postgresql, you'll need to modify all files in `GraphQLServer/data` to support the different architecture.
+
+## Examples
+
+### Queries
+
+Query all users, their sets and associated terms.
+```
+{
+    allUsers {
+        id
+        username
+        email
+        sets {
+            id
+            title
+            description
+            terms {
+                word
+                definition
+            }
+        }
+    }
+}
+```
+
+Query set with id=1.
+```
+{
+    studySet(id: "1") {
+        title
+        description
+    }
+}
+```
+
+### Mutations
+
+Create a user.
+```
+// query:
+mutation CreateUser($userInput: UserInput!) {
+    createUser(input: $userInput) {
+        id
+        username
+        email
+    }
+}
+
+// variables:
+{
+    "userInput": {
+        "username": "Name1",
+        "email": "name1@example.com"
+    }
+}
+```
+
+Create a set.
+```
+// query:
+mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
+    createSet(creatorId: $creatorId, input: $setInput) {
+        id
+        title
+        description
+        creator {
+            id
+            username
+        }
+    }
+}
+
+// variables:
+{
+    "creatorId": "1",
+    "setInput": {
+        "title": "Great Books",
+        "description": "Great books everyone should read."
+    }
+}
+```
+
+Add terms to a set.
+```
+// query:
+mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
+    addTerms(setId: $setId, input: $termsInput) {
+        id
+        word
+        definition
+        parentSet {
+            id
+        }
+    }
+}
+
+// variables:
+{
+    "setId": "1",
+    "termsInput": [
+        {
+            "word": "Dune",
+            "definition": "Frank Herbert"
+        },
+        {
+            "word": "A Brief History of Time",
+            "definition": "Stephen Hawking"
+        },
+        {
+            "word": "The Lord of the Rings",
+            "definition": "J. R. R. Tolkien"
+        }
+    ]
+}
+```

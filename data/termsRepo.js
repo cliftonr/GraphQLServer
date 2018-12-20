@@ -18,7 +18,30 @@ class TermsRepository {
         		study_terms
         	WHERE
         		parent_set_id = $1
+        		AND is_deleted != TRUE
         	`, setId);
+    }
+
+    // Create a term with the given `word` and `definition` that belongs to a set with the given `setId`.
+    createTerm(setId, word, definition) {
+    	return this.db.one(`
+			INSERT INTO study_terms(
+				word,
+				definition,
+				parent_set_id)
+			VALUES (
+				$1,
+				$2,
+				$3)
+			RETURNING
+				term_id 			AS id,
+				word,
+				definition,
+				parent_set_id,
+				created,
+				changed,
+				is_deleted
+			`, [word, definition, setId]);
     }
 }
 

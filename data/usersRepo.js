@@ -15,6 +15,8 @@ class UsersRepository {
     			email
     		FROM
     			accounts
+    		WHERE
+        		is_deleted != TRUE
     		`)
     }
 

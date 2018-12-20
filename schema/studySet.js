@@ -11,7 +11,7 @@ const studySetTypeDef = `
 		# Description for the set.
 		description: String
 
-		# Description for the set.
+		# Whether the set has been deleted. (Soft deletion.)
 		isDeleted: Boolean
 	}
 
