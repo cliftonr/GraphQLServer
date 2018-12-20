@@ -25,7 +25,7 @@ $ node index.js
 ### Queries
 
 **Query all users, their sets and associated terms.**
-```
+```javascript
 {
     allUsers {
         id
@@ -45,7 +45,7 @@ $ node index.js
 ```
 
 **Query set with id=1.**
-```
+```javascript
 {
     studySet(id: "1") {
         title
@@ -57,7 +57,7 @@ $ node index.js
 ### Mutations
 
 **Create a user.**
-```
+```javascript
 // query:
 mutation CreateUser($userInput: UserInput!) {
     createUser(input: $userInput) {
@@ -77,7 +77,7 @@ mutation CreateUser($userInput: UserInput!) {
 ```
 
 **Create a set.**
-```
+```javascript
 // query:
 mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
     createSet(creatorId: $creatorId, input: $setInput) {
@@ -102,7 +102,7 @@ mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
 ```
 
 **Add terms to a set.**
-```
+```javascript
 // query:
 mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
     addTerms(setId: $setId, input: $termsInput) {
