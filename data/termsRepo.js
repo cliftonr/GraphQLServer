@@ -71,8 +71,7 @@ class TermsRepository {
     		word,
     		definition,
     		isDeleted,
-    		termId,
-    		new Date()
+    		termId
     	]
     	return this.db.one(`
 			UPDATE
@@ -80,8 +79,7 @@ class TermsRepository {
 			SET
 				word 			= COALESCE($1, word),
 				definition 		= COALESCE($2, definition),
-				is_deleted 		= COALESCE($3, is_deleted),
-				changed			= $5
+				is_deleted 		= COALESCE($3, is_deleted)
 			WHERE
 				term_id 		= $4
 			RETURNING

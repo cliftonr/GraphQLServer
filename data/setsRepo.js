@@ -71,8 +71,7 @@ class SetsRepository {
     		title,
     		description,
     		isDeleted,
-    		setId,
-    		new Date()
+    		setId
     	]
     	return this.db.one(`
 			UPDATE
@@ -80,8 +79,7 @@ class SetsRepository {
 			SET
 				title 			= COALESCE($1, title),
 				description 	= COALESCE($2, description),
-				is_deleted 		= COALESCE($3, is_deleted),
-				changed			= $5
+				is_deleted 		= COALESCE($3, is_deleted)
 			WHERE
 				set_id 			= $4
 			RETURNING
