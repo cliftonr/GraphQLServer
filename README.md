@@ -50,6 +50,12 @@ $ node index.js
     studySet(id: "1") {
         title
         description
+        changed
+        terms {
+            word
+            definition
+            changed
+        }
     }
 }
 ```
