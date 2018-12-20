@@ -1,5 +1,5 @@
 # GraphQLServer
-Test the capabilities of Apollo GraphQL.
+Test the capabilities of Apollo GraphQL. Has a very simple model layer that doesn't involve any kind of authentication or authorization.
 
 ## Get started
 
@@ -30,14 +30,16 @@ These files define the types used for queries and mutations. Each file encapsula
 All type definitions and resolvers are merged in `GraphQLServer/schema/schema.js`
 
 Current models include:
-* User
-* StudySet
-* StudyTerm
+* User: creates study sets.
+* StudySet: contains study terms.
+* StudyTerm: has study information (a word and associated definition).
 
 ### Repositories
 `GraphQLServer/data`
 
 These files define the repositories that interact with the database. Schema should use the repositories, and not interact directly with the database.
+
+Keep in mind when working with repositories that columns obtained from the database are converted to `camelCase`, not `snake_case` as they are named in the database.
 
 ### Database setup
 `GraphQLServer/db-setup`
