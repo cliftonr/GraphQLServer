@@ -43,3 +43,5 @@ These files define the repositories that interact with the database. Schema shou
 `GraphQLServer/db-setup`
 
 By default, `data/db.js` connects with a postgresql database that has already been configured, but if you want to set up your own database, these are queries that'll get you up and running.
+
+After setting up your database, open `GraphQLServer/data/db.js` and change `connection` to your database. If you decide to use something other than postgresql, you'll need to modify all files in `GraphQLServer/data` to support the different architecture.
