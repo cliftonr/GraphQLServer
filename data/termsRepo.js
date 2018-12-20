@@ -10,7 +10,7 @@ class TermsRepository {
     terms(setId) {
         return this.db.any(`
         	SELECT
-        		term_id 			AS id,
+        		term_id 		AS id,
         		word,
         		definition,
         		parent_set_id

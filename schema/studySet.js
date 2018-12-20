@@ -81,7 +81,7 @@ const studySetResolver = {
 
   	StudySet: {
   		terms: studySet => termsRepo.terms(studySet.id),
-  		creator: studySet => usersRepo.user(studySet.creator_id),
+  		creator: studySet => usersRepo.user(studySet.creatorId),
   	},
 };
 
