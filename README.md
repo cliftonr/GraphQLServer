@@ -39,6 +39,8 @@ Current models include:
 
 These files define the repositories that interact with the database. Schema should use the repositories, and not interact directly with the database.
 
+Keep in mind when working with repositories that columns obtained from the database are converted to `camelCase`, not `snake_case` as they are named in the database.
+
 ### Database setup
 `GraphQLServer/db-setup`
 
