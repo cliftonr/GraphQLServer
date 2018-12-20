@@ -26,7 +26,7 @@ class SetsRepository {
     }
 
   	// Get set with given `id`.
-    studySet(id) {
+    studySet(setId) {
         return this.db.oneOrNone(`
 			SELECT
 				set_id 			AS id,
@@ -40,7 +40,7 @@ class SetsRepository {
 				study_sets
 			WHERE
 				set_id = $1
-			`, id);
+			`, setId);
     }
 
 	// Create a set with the given `title` and `description` that belongs to a user with the given `creatorId`.
@@ -67,20 +67,21 @@ class SetsRepository {
 
     // Apply changes to set with given `setId`.
     updateSet(setId, title, description, isDeleted) {
-    	const originalSet = this.studySet(setId);
     	const edits = [
-    		title || originalSet.title,
-    		description || originalSet.description,
-    		(isDeleted || originalSet.is_deleted) ? "TRUE" : "FALSE",
-    		setId
+    		title,
+    		description,
+    		isDeleted,
+    		setId,
+    		new Date()
     	]
     	return this.db.one(`
 			UPDATE
 				study_sets
 			SET
-				title 			= $1,
-				description 	= $2,
-				is_deleted 		= $3
+				title 			= COALESCE($1, title),
+				description 	= COALESCE($2, description),
+				is_deleted 		= COALESCE($3, is_deleted),
+				changed			= $5
 			WHERE
 				set_id 			= $4
 			RETURNING

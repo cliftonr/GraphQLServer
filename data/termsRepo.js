@@ -13,13 +13,34 @@ class TermsRepository {
         		term_id 		AS id,
         		word,
         		definition,
-        		parent_set_id
+        		parent_set_id,
+        		created,
+				changed,
+				is_deleted
         	FROM
         		study_terms
         	WHERE
         		parent_set_id = $1
         		AND is_deleted != TRUE
         	`, setId);
+    }
+
+    // Get term with given `id`.
+    term(termId) {
+        return this.db.oneOrNone(`
+			SELECT
+        		term_id 		AS id,
+        		word,
+        		definition,
+        		parent_set_id,
+				created,
+				changed,
+				is_deleted
+			FROM
+				study_terms
+			WHERE
+				term_id = $1
+			`, termId);
     }
 
     // Create a term with the given `word` and `definition` that belongs to a set with the given `setId`.
@@ -42,6 +63,36 @@ class TermsRepository {
 				changed,
 				is_deleted
 			`, [word, definition, setId]);
+    }
+
+    // Apply changes to term with given `termId`.
+    updateTerm(termId, word, definition, isDeleted) {
+    	const edits = [
+    		word,
+    		definition,
+    		isDeleted,
+    		termId,
+    		new Date()
+    	]
+    	return this.db.one(`
+			UPDATE
+				study_terms
+			SET
+				word 			= COALESCE($1, word),
+				definition 		= COALESCE($2, definition),
+				is_deleted 		= COALESCE($3, is_deleted),
+				changed			= $5
+			WHERE
+				term_id 		= $4
+			RETURNING
+				term_id 			AS id,
+				word,
+				definition,
+				parent_set_id,
+				created,
+				changed,
+				is_deleted
+			`, edits);
     }
 }
 

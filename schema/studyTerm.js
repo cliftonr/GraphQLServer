@@ -41,6 +41,9 @@ const studyTermTypeDef = `
 	extend type Mutation {
   		# Add study term(s) to a set with the given setId.
   		addTerms(setId: String!, input: [StudyTermInput!]!): [StudyTerm]!
+
+  		# Update a study term with the given termId.
+  		updateTerm(termId: String!, input: StudyTermInput!): StudyTerm
   	}
 `;
 
@@ -57,6 +60,14 @@ const studyTermResolver = {
 			});
 
 			return newTerms;
+		},
+
+		updateTerm: (_, { termId, input }) => {
+			const updatedTerm = termsRepo.updateTerm(termId, input.word, input.definition, input.isDeleted);
+			if (!updatedTerm) {
+				throw new Error("Failed to update term. (termId: {termId}, input: {input})");
+			}
+			return updatedTerm;
 		},
   	},
 
