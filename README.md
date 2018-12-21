@@ -48,8 +48,16 @@ $ node index.js
 ```javascript
 {
     studySet(id: "1") {
+        id
         title
         description
+        changed
+        terms {
+            id
+            word
+            definition
+            changed
+        }
     }
 }
 ```
