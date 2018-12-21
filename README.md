@@ -18,7 +18,7 @@ $ npm install
 $ node index.js
   Server ready at http://localhost:4000/
 ```
-4) Open server playground URL in web browser. (`http://localhost:4000/`)
+4) Open server playground URL in web browser. (`http://localhost:4000/`) The playground will let you easily try out the examples below.
 
 ## Examples
 
