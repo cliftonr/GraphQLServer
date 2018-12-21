@@ -61,28 +61,28 @@ $ node index.js
 Note: All of the types in our schema implement the `ServiceModel` interface, which specifies the following fields: `id`, `created`, `changed` and `isDeleted`. All of these fields can be included on every conforming type by using a *fragment*.
 ```javascript
 {
-	allUsers {
-		...commonFields
-		username
-		email
-		sets {
-			...commonFields
-			title
-			description
-			terms {
-				...commonFields
-				word
-				definition
-			}
-		}
-	}
+    allUsers {
+        ...commonFields
+        username
+        email
+        sets {
+            ...commonFields
+            title
+            description
+            terms {
+                ...commonFields
+                word
+                definition
+            }
+        }
+    }
 }
 
 fragment commonFields on ServiceModel {
-	id
-	created
-	changed
-	isDeleted
+    id
+    created
+    changed
+    isDeleted
 }
 ```
 
