@@ -18,13 +18,13 @@ $ npm install
 $ node index.js
   Server ready at http://localhost:4000/
 ```
-4) Open server playground URL in web browser. (`http://localhost:4000/`)
+4) Open server playground URL in web browser. (`http://localhost:4000/`) The playground will let you easily try out the examples below.
 
 ## Examples
 
 ### Queries
 
-**Query all users, their sets and associated terms:**
+**- Query all users, their sets and associated terms:**
 ```javascript
 {
     allUsers {
@@ -42,7 +42,7 @@ $ node index.js
 }
 ```
 
-**Query set with id=1:**
+**- Query set with id=1:**
 ```javascript
 {
     studySet(id: "1") {
@@ -57,7 +57,8 @@ $ node index.js
 }
 ```
 
-**(DRY) Query data using common interface + fragment:**
+**- (DRY) Query data using common interface + fragment:**
+
 Note: All of the types in our schema implement the `ServiceModel` interface, which specifies the following fields: `id`, `created`, `changed` and `isDeleted`. All of these fields can be included on every conforming type by using a *fragment*.
 ```javascript
 {
@@ -88,7 +89,7 @@ fragment commonFields on ServiceModel {
 
 ### Mutations
 
-**Create a user:**
+**- Create a user:**
 ```javascript
 // query:
 mutation CreateUser($userInput: UserInput!) {
@@ -107,7 +108,7 @@ mutation CreateUser($userInput: UserInput!) {
 }
 ```
 
-**Create a set:**
+**- Create a set:**
 ```javascript
 // query:
 mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
@@ -132,7 +133,7 @@ mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
 }
 ```
 
-**Add terms to a set:**
+**- Add terms to a set:**
 ```javascript
 // query:
 mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
