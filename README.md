@@ -24,15 +24,13 @@ $ node index.js
 
 ### Queries
 
-**Query all users, their sets and associated terms.**
+**Query all users, their sets and associated terms:**
 ```javascript
 {
     allUsers {
-        id
         username
         email
         sets {
-            id
             title
             description
             terms {
@@ -44,32 +42,57 @@ $ node index.js
 }
 ```
 
-**Query set with id=1.**
+**Query set with id=1:**
 ```javascript
 {
     studySet(id: "1") {
         id
         title
         description
-        changed
         terms {
-            id
             word
             definition
-            changed
         }
     }
 }
 ```
 
+**(DRY) Query data using common interface + fragment:**
+Note: All of the types in our schema implement the `ServiceModel` interface, which specifies the following fields: `id`, `created`, `changed` and `isDeleted`. All of these fields can be included on every conforming type by using a *fragment*.
+```javascript
+{
+	allUsers {
+		...commonFields
+		username
+		email
+		sets {
+			...commonFields
+			title
+			description
+			terms {
+				...commonFields
+				word
+				definition
+			}
+		}
+	}
+}
+
+fragment commonFields on ServiceModel {
+	id
+	created
+	changed
+	isDeleted
+}
+```
+
 ### Mutations
 
-**Create a user.**
+**Create a user:**
 ```javascript
 // query:
 mutation CreateUser($userInput: UserInput!) {
     createUser(input: $userInput) {
-        id
         username
         email
     }
@@ -84,7 +107,7 @@ mutation CreateUser($userInput: UserInput!) {
 }
 ```
 
-**Create a set.**
+**Create a set:**
 ```javascript
 // query:
 mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
@@ -109,7 +132,7 @@ mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
 }
 ```
 
-**Add terms to a set.**
+**Add terms to a set:**
 ```javascript
 // query:
 mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
@@ -148,11 +171,12 @@ mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
 ### Schema
 `GraphQLServer/schema`
 
-These files define the types used for queries and mutations. Each file encapsulates types and resolvers for a specific model. 
+These files define the types used for queries and mutations. Each file encapsulates types and resolvers for a specific model.
 
 All type definitions and resolvers are merged in `GraphQLServer/schema/schema.js`
 
 Current models include:
+* ServiceModel: Interface which all other models implement.
 * User: creates study sets.
 * StudySet: contains study terms.
 * StudyTerm: has study information (a word and associated definition).

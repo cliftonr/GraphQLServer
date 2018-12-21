@@ -1,11 +1,13 @@
 const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
 const merge = require('lodash').merge;
 
+const serviceModel = require('./serviceModel.js')
 const { studySetTypeDef, studySetResolver } = require('./studySet.js')
 const { studyTermTypeDef, studyTermResolver } = require('./studyTerm.js')
 const { userTypeDef, userResolver } = require('./user.js')
 
 const baseTypeDef = `
+
 	# Base query type, extended in other type definitions.
 	type Query {
 		_empty: String
@@ -18,8 +20,10 @@ const baseTypeDef = `
 `;
 
 const schema = makeExecutableSchema({
+
   typeDefs: [
   	baseTypeDef,
+  	serviceModel,
   	studySetTypeDef,
   	studyTermTypeDef,
   	userTypeDef

@@ -2,8 +2,10 @@ const setsRepo = require('../data/setsRepo').setsRepo;
 const termsRepo = require('../data/termsRepo').termsRepo;
 
 const studyTermTypeDef = `
+
 	# Input type suitable for adding/updating a term.
 	input StudyTermInput {
+
 		# The "word" side of a term.
 		word: String
 
@@ -15,9 +17,19 @@ const studyTermTypeDef = `
 	}
 
 	# A basic unit of user-generated content.
-	type StudyTerm {
-		# Term's unique identifier.
-		id: String!
+	type StudyTerm implements ServiceModel {
+
+		# See interface: ServiceModel.
+		id: ID!
+
+		# See interface: ServiceModel.
+		created: String!
+
+		# See interface: ServiceModel.
+		changed: String!
+
+		# See interface: ServiceModel.
+		isDeleted: Boolean!
 
 		# The "word" side of a term.
 		word: String!
@@ -27,18 +39,10 @@ const studyTermTypeDef = `
 
 		# The set to which the term belongs.
 		parentSet: StudySet!
-
-		# The date on which the term was created.
-		created: String!
-
-		# The date on which the term was last changed.
-		changed: String!
-
-		# Whether the term has been deleted. (Soft deletion.)
-		isDeleted: Boolean!
 	}
 
 	extend type Mutation {
+
   		# Add study term(s) to a set with the given setId.
   		addTerms(setId: String!, input: [StudyTermInput!]!): [StudyTerm]!
 
@@ -48,7 +52,9 @@ const studyTermTypeDef = `
 `;
 
 const studyTermResolver = {
+
 	Mutation: {
+
 		addTerms: (_, { setId, input }) => {
 			const newTerms = input.map(function (termInput) {
 				const newTerm = termsRepo.createTerm(setId, termInput.word, termInput.definition);
@@ -72,6 +78,7 @@ const studyTermResolver = {
   	},
 
   	StudyTerm: {
+
   		parentSet: studyTerm => setsRepo.studySet(studyTerm.parentSetId),
   	},
 };

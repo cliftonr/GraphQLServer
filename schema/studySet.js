@@ -3,8 +3,10 @@ const termsRepo = require('../data/termsRepo').termsRepo;
 const usersRepo = require('../data/usersRepo').usersRepo;
 
 const studySetTypeDef = `
+
 	# Input type suitable for creating/updating a user.
 	input StudySetInput {
+
 		# Title for the set.
 		title: String
 
@@ -16,9 +18,19 @@ const studySetTypeDef = `
 	}
 
 	# A collection of user-generated content.
-	type StudySet {
-		# Set's unique identifier.
-		id: String!
+	type StudySet implements ServiceModel {
+
+		# See interface: ServiceModel.
+		id: ID!
+
+		# See interface: ServiceModel.
+		created: String!
+
+		# See interface: ServiceModel.
+		changed: String!
+
+		# See interface: ServiceModel.
+		isDeleted: Boolean!
 
 		# Title for the set.
 		title: String!
@@ -31,18 +43,10 @@ const studySetTypeDef = `
 
 		# The user who created the set.
 		creator: User!
-
-		# The date on which the set was created.
-		created: String!
-
-		# The date on which the set was last changed.
-		changed: String!
-
-		# Whether the set has been deleted. (Soft deletion.)
-		isDeleted: Boolean!
 	}
 
 	extend type Query {
+
 		# Get set with given id.
 		studySet(id: String!): StudySet
 
@@ -51,6 +55,7 @@ const studySetTypeDef = `
 	}
 
   	extend type Mutation {
+
   		# Create a study set which belongs to a user with the given creatorId.
   		createSet(creatorId: String!, input: StudySetInput!): StudySet
 
@@ -60,12 +65,15 @@ const studySetTypeDef = `
 `;
 
 const studySetResolver = {
+
 	Query: {
+
  		studySet: (_, { id }) => setsRepo.studySet(id),
  		studySets: (_, { creatorId }) => setsRepo.studySets(creatorId),
   	},
 
 	Mutation: {
+
 		createSet: (_, { creatorId, input }) => {
 			const newSet = setsRepo.createSet(creatorId, input.title, input.description);
 			if (!newSet) {
@@ -84,6 +92,7 @@ const studySetResolver = {
   	},
 
   	StudySet: {
+
   		terms: studySet => termsRepo.terms(studySet.id),
   		creator: studySet => usersRepo.user(studySet.creatorId),
   	},

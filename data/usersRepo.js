@@ -12,7 +12,10 @@ class UsersRepository {
     		SELECT
     			user_id			AS id,
     			username,
-    			email
+    			email,
+    			created,
+    			changed,
+    			is_deleted
     		FROM
     			accounts
     		WHERE
@@ -28,7 +31,8 @@ class UsersRepository {
         	username,
         	email,
         	created,
-        	changed
+        	changed,
+        	is_deleted
         FROM
         	accounts
         WHERE
@@ -50,7 +54,8 @@ class UsersRepository {
     			username,
     			email,
     			created,
-    			changed
+    			changed,
+    			is_deleted
     		`, [username, email]);
     }
 }
