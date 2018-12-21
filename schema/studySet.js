@@ -44,7 +44,10 @@ const studySetTypeDef = `
 
 	extend type Query {
 		# Get set with given id.
-		studySet(id: String): StudySet
+		studySet(id: String!): StudySet
+
+		# Get all sets belonging to user with creatorId.
+		studySets(creatorId: String!): [StudySet]!
 	}
 
   	extend type Mutation {
@@ -59,6 +62,7 @@ const studySetTypeDef = `
 const studySetResolver = {
 	Query: {
  		studySet: (_, { id }) => setsRepo.studySet(id),
+ 		studySets: (_, { creatorId }) => setsRepo.studySets(creatorId),
   	},
 
 	Mutation: {
