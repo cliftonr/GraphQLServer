@@ -48,19 +48,19 @@ const studySetTypeDef = `
 	extend type Query {
 
 		# Get set with given id.
-		studySet(id: String!): StudySet
+		studySet(setId: ID!): StudySet
 
 		# Get all sets belonging to user with creatorId.
-		studySets(creatorId: String!): [StudySet]!
+		studySets(creatorId: ID!): [StudySet]!
 	}
 
   	extend type Mutation {
 
   		# Create a study set which belongs to a user with the given creatorId.
-  		createSet(creatorId: String!, input: StudySetInput!): StudySet
+  		createSet(creatorId: ID!, input: StudySetInput!): StudySet
 
   		# Update a study set with the given setId.
-  		updateSet(setId: String!, input: StudySetInput!): StudySet
+  		updateSet(setId: ID!, input: StudySetInput!): StudySet
   	}
 `;
 
@@ -68,7 +68,7 @@ const studySetResolver = {
 
 	Query: {
 
- 		studySet: (_, { id }) => setsRepo.studySet(id),
+ 		studySet: (_, { setId }) => setsRepo.studySet(setId),
  		studySets: (_, { creatorId }) => setsRepo.studySets(creatorId),
   	},
 

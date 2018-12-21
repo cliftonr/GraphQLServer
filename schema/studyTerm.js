@@ -44,10 +44,10 @@ const studyTermTypeDef = `
 	extend type Mutation {
 
   		# Add study term(s) to a set with the given setId.
-  		addTerms(setId: String!, input: [StudyTermInput!]!): [StudyTerm]!
+  		addTerms(setId: ID!, input: [StudyTermInput!]!): [StudyTerm]!
 
   		# Update a study term with the given termId.
-  		updateTerm(termId: String!, input: StudyTermInput!): StudyTerm
+  		updateTerm(termId: ID!, input: StudyTermInput!): StudyTerm
   	}
 `;
 
