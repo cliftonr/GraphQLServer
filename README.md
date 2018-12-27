@@ -45,7 +45,7 @@ $ node index.js
 **- Query set with id=1:**
 ```javascript
 {
-    studySet(id: "1") {
+    studySet(setId: "1") {
         id
         title
         description
