@@ -3,8 +3,8 @@ const usersRepo = require('../data/usersRepo').usersRepo;
 
 const userTypeDef = `
 
-	# Input type suitable for creating/updating a user.
-	input UserInput {
+	# Input type suitable for user-creation.
+	input CreateUserInput {
 
 		# User's unique handle.
 		username: String!
@@ -35,19 +35,19 @@ const userTypeDef = `
 		email: String!
 
 		# Sets created by the user.
-		sets: [StudySet]!
+		sets: [StudySet]
 	}
 
 	extend type Query {
 
 		# Get all users.
-		allUsers: [User]!
+		allUsers: [User!]!
 	}
 
 	extend type Mutation {
 
-  		# Add a user with the given username and email.
-  		createUser(input: UserInput!): User
+  		# Create a user with the given username and email.
+  		createUser(input: CreateUserInput!): User!
 	}
 `;
 
@@ -61,11 +61,11 @@ const userResolver = {
   	Mutation: {
 
 		createUser: (_, { input }) => {
-			const newUser = usersRepo.createUser(input.username, input.email);
-			if (!newUser) {
+			const createdUser = usersRepo.createUser(input.username, input.email);
+			if (!createdUser) {
 				throw new Error("Failed to create user. (input: {input})");
 			}
-			return newUser;
+			return createdUser;
 		},
 	},
 

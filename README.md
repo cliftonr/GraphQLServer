@@ -92,8 +92,8 @@ fragment commonFields on ServiceModel {
 **- Create a user:**
 ```javascript
 // query:
-mutation CreateUser($userInput: UserInput!) {
-    createUser(input: $userInput) {
+mutation CreateUser($createUserInput: CreateUserInput!) {
+    createUser(input: $createUserInput) {
         username
         email
     }
@@ -101,7 +101,7 @@ mutation CreateUser($userInput: UserInput!) {
 
 // variables:
 {
-    "userInput": {
+    "createUserInput": {
         "username": "Name1",
         "email": "name1@example.com"
     }
@@ -111,13 +111,11 @@ mutation CreateUser($userInput: UserInput!) {
 **- Create a set:**
 ```javascript
 // query:
-mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
-    createSet(creatorId: $creatorId, input: $setInput) {
-        id
+mutation CreateSet($createSetInput: CreateStudySetInput!) {
+    createStudySet(input: $createSetInput) {
         title
         description
         creator {
-            id
             username
         }
     }
@@ -125,8 +123,8 @@ mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
 
 // variables:
 {
-    "creatorId": "1",
-    "setInput": {
+    "createSetInput": {
+        "creatorId": "1",
         "title": "Great Books",
         "description": "Great books everyone should read."
     }
@@ -136,34 +134,37 @@ mutation CreateSet($creatorId: String!, $setInput: StudySetInput!) {
 **- Add terms to a set:**
 ```javascript
 // query:
-mutation AddTerms($setId: String!, $termsInput: [StudyTermInput!]!) {
-    addTerms(setId: $setId, input: $termsInput) {
-        id
+mutation AddTerms($createStudyTermsInput: CreateStudyTermsInput!) {
+    createStudyTerms(input: $createStudyTermsInput) {
         word
         definition
         parentSet {
-            id
+            title
         }
     }
 }
 
 // variables:
 {
-    "setId": "1",
-    "termsInput": [
-        {
-            "word": "Dune",
-            "definition": "Frank Herbert"
-        },
-        {
-            "word": "A Brief History of Time",
-            "definition": "Stephen Hawking"
-        },
-        {
-            "word": "The Lord of the Rings",
-            "definition": "J. R. R. Tolkien"
-        }
-    ]
+    "createStudyTermsInput": {
+        "studyTerms": [
+            {
+                "parentSetId": "4",
+                "word": "Dune",
+                "definition": "Frank Herbert"
+            },
+            {
+                "parentSetId": "4",
+                "word": "A Brief History of Time",
+                "definition": "Stephen Hawking"
+            },
+            {
+                "parentSetId": "4",
+                "word": "The Lord of the Rings",
+                "definition": "J. R. R. Tolkien"
+            }
+        ]
+    }
 }
 ```
 

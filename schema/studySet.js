@@ -4,13 +4,29 @@ const usersRepo = require('../data/usersRepo').usersRepo;
 
 const studySetTypeDef = `
 
-	# Input type suitable for creating/updating a user.
-	input StudySetInput {
+	# Input type suitable for creating a new study set.
+	input CreateStudySetInput {
 
-		# Title for the set.
+		# ID of the user who created the study set.
+		creatorId: ID!
+
+		# Title for the study set.
+		title: String!
+
+		# Description for the study set.
+		description: String
+	}
+
+	# Input type suitable for updating an existing study set.
+	input UpdateStudySetInput {
+
+		# ID of the study set for which an update shall occur.
+		studySetId: ID!
+
+		# Title for the study set.
 		title: String
 
-		# Description for the set.
+		# Description for the study set.
 		description: String
 
 		# Whether the set has been deleted. (Soft deletion.)
@@ -39,7 +55,7 @@ const studySetTypeDef = `
 		description: String
 
 		# The terms contained in the set.
-		terms: [StudyTerm]!
+		terms: [StudyTerm!]
 
 		# The user who created the set.
 		creator: User!
@@ -51,16 +67,16 @@ const studySetTypeDef = `
 		studySet(setId: ID!): StudySet
 
 		# Get all sets belonging to user with creatorId.
-		studySets(creatorId: ID!): [StudySet]!
+		studySets(creatorId: ID!): [StudySet!]!
 	}
 
   	extend type Mutation {
 
-  		# Create a study set which belongs to a user with the given creatorId.
-  		createSet(creatorId: ID!, input: StudySetInput!): StudySet
+  		# Create a new study term.
+  		createStudySet(input: CreateStudySetInput!): StudySet!
 
-  		# Update a study set with the given setId.
-  		updateSet(setId: ID!, input: StudySetInput!): StudySet
+  		# Update an existing study set.
+  		updateStudySet(input: UpdateStudySetInput!): StudySet!
   	}
 `;
 
@@ -74,18 +90,18 @@ const studySetResolver = {
 
 	Mutation: {
 
-		createSet: (_, { creatorId, input }) => {
-			const newSet = setsRepo.createSet(creatorId, input.title, input.description);
-			if (!newSet) {
-				throw new Error("Failed to create set. (creatorId: {creatorId}, input: {input})");
+		createStudySet: (_, { input }) => {
+			const createdSet = setsRepo.createSet(input.creatorId, input.title, input.description);
+			if (!createdSet) {
+				throw new Error("Failed to create study set. (input: {input})");
 			}
-			return newSet;
+			return createdSet;
 		},
 
-		updateSet: (_, { setId, input }) => {
-			const updatedSet = setsRepo.updateSet(setId, input.title, input.description, input.isDeleted);
+		updateStudySet: (_, { input }) => {
+			const updatedSet = setsRepo.updateSet(input.studySetId, input.title, input.description, input.isDeleted);
 			if (!updatedSet) {
-				throw new Error("Failed to update set. (setId: {setId}, input: {input})");
+				throw new Error("Failed to update study set. (input: {input})");
 			}
 			return updatedSet;
 		},

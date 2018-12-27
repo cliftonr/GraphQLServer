@@ -3,16 +3,39 @@ const termsRepo = require('../data/termsRepo').termsRepo;
 
 const studyTermTypeDef = `
 
-	# Input type suitable for adding/updating a term.
-	input StudyTermInput {
+	# Input type suitable for creating a new study term.
+	input CreateStudyTermInput {
 
-		# The "word" side of a term.
+		# ID of the study set to which the study term shall be associated.
+		parentSetId: ID!
+
+		# The "word" side of a study term.
+		word: String!
+
+		# The "definition" side of a study term.
+		definition: String!
+	}
+
+	# Input type suitable for batching the creation of new study terms.
+	input CreateStudyTermsInput {
+
+		# The study terms that shall be created.
+		studyTerms: [CreateStudyTermInput!]!
+	}
+
+	# Input type suitable for updating an existing study term.
+	input UpdateStudyTermInput {
+
+		# ID of the study term for which an update shall occur.
+		studyTermId: ID!
+
+		# The "word" side of a study term.
 		word: String
 
-		# The "definition" side of a term.
+		# The "definition" side of a study term.
 		definition: String
 
-		# Whether the term has been deleted. (Soft deletion.)
+		# Whether the study term has been deleted. (Soft deletion.)
 		isDeleted: Boolean
 	}
 
@@ -43,11 +66,11 @@ const studyTermTypeDef = `
 
 	extend type Mutation {
 
-  		# Add study term(s) to a set with the given setId.
-  		addTerms(setId: ID!, input: [StudyTermInput!]!): [StudyTerm]!
+  		# Create a new study term.
+  		createStudyTerms(input: CreateStudyTermsInput!): [StudyTerm!]!
 
-  		# Update a study term with the given termId.
-  		updateTerm(termId: ID!, input: StudyTermInput!): StudyTerm
+  		# Update an existing study term.
+  		updateStudyTerm(input: UpdateStudyTermInput!): StudyTerm!
   	}
 `;
 
@@ -55,23 +78,22 @@ const studyTermResolver = {
 
 	Mutation: {
 
-		addTerms: (_, { setId, input }) => {
-			const newTerms = input.map(function (termInput) {
-				const newTerm = termsRepo.createTerm(setId, termInput.word, termInput.definition);
-				if (!newTerm) {
-					throw new Error("Failed to add term. (setId: {setId}, termInput: {termInput})");
+		createStudyTerms: (_, { input }) => {
+			const createdTerms = input.studyTerms.map(function (studyTermInput) {
+				const createdTerm = termsRepo.createTerm(studyTermInput.parentSetId, studyTermInput.word, studyTermInput.definition);
+				if (!createdTerm) {
+					throw new Error("Failed to create study term. (input: {studyTermInput})");
 				}
 
-				return newTerm
+				return createdTerm;
 			});
-
-			return newTerms;
+			return createdTerms;
 		},
 
-		updateTerm: (_, { termId, input }) => {
-			const updatedTerm = termsRepo.updateTerm(termId, input.word, input.definition, input.isDeleted);
+		updateStudyTerm: (_, { input }) => {
+			const updatedTerm = termsRepo.updateTerm(input.studyTermId, input.word, input.definition, input.isDeleted);
 			if (!updatedTerm) {
-				throw new Error("Failed to update term. (termId: {termId}, input: {input})");
+				throw new Error("Failed to update study term. (input: {input})");
 			}
 			return updatedTerm;
 		},
