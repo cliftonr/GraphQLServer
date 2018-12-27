@@ -1,9 +1,9 @@
-const setsRepo = require('../data/setsRepo').setsRepo;
-const termsRepo = require('../data/termsRepo').termsRepo;
-const usersRepo = require('../data/usersRepo').usersRepo;
+const setsRepo = require('../data/setsRepo').setsRepo
+const termsRepo = require('../data/termsRepo').termsRepo
+const usersRepo = require('../data/usersRepo').usersRepo
+const { gql } = require('apollo-server')
 
-const studySetTypeDef = `
-
+const studySetTypeDef = gql`
 	# Input type suitable for creating a new study set.
 	input CreateStudySetInput {
 

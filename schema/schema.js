@@ -1,13 +1,12 @@
-const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
-const merge = require('lodash').merge;
-
+const makeExecutableSchema = require('graphql-tools').makeExecutableSchema
+const merge = require('lodash').merge
 const serviceModel = require('./serviceModel.js')
 const { studySetTypeDef, studySetResolver } = require('./studySet.js')
 const { studyTermTypeDef, studyTermResolver } = require('./studyTerm.js')
 const { userTypeDef, userResolver } = require('./user.js')
+const { gql } = require('apollo-server')
 
-const baseTypeDef = `
-
+const baseTypeDef = gql`
 	# Base query type, extended in other type definitions.
 	type Query {
 		_empty: String

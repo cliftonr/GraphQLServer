@@ -1,8 +1,8 @@
-const setsRepo = require('../data/setsRepo').setsRepo;
-const termsRepo = require('../data/termsRepo').termsRepo;
+const setsRepo = require('../data/setsRepo').setsRepo
+const termsRepo = require('../data/termsRepo').termsRepo
+const { gql } = require('apollo-server')
 
-const studyTermTypeDef = `
-
+const studyTermTypeDef = gql`
 	# Input type suitable for creating a new study term.
 	input CreateStudyTermInput {
 

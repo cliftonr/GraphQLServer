@@ -1,8 +1,8 @@
-const setsRepo = require('../data/setsRepo').setsRepo;
-const usersRepo = require('../data/usersRepo').usersRepo;
+const setsRepo = require('../data/setsRepo').setsRepo
+const usersRepo = require('../data/usersRepo').usersRepo
+const { gql } = require('apollo-server')
 
-const userTypeDef = `
-
+const userTypeDef = gql`
 	# Input type suitable for user-creation.
 	input CreateUserInput {
 

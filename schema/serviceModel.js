@@ -1,5 +1,6 @@
-const serviceModelTypeDef = `
+const { gql } = require('apollo-server')
 
+const serviceModelTypeDef = gql`
 	# Common interface for all models returned by the service.
 	interface ServiceModel {
 

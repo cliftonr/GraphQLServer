@@ -1,3 +1,6 @@
+# Visual Studio Code IDE
+*.code-workspace
+
 # Logs
 logs
 *.log
